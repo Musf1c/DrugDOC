@@ -1,4 +1,4 @@
-package org.example;
+package org.example.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,10 +11,11 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 
-public class GeneraleRecipeKey {
-    public String nameDoc;
+public class Recipe {
     public String titleDrug;
+    public String nameDoc;
     public String patient;
     public Date dateOfAction;
-    public String keyWord;
+    public int totalQuantity;
+    public String uniqueKey;
 }
