@@ -1,7 +1,12 @@
-package org.example.service;
+package service;
 
-import org.example.entity.AvailabilityOfDrug;
-import org.example.entity.User;
+
+import entity.AvailabilityOfDrug;
+import entity.GeneraleRecipeKey;
+import entity.Recipe;
+import entity.User;
+
+import java.lang.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -33,7 +38,7 @@ public class FileUtils {
 
                 listUser.add(user);
             }
-            System.out.println(listUser);;
+            System.out.println(listUser);
             bufferedReader.close();
             fileReader.close();
 
@@ -69,6 +74,7 @@ public class FileUtils {
             throw new RuntimeException(e);
         }
     }
+
     public static List<AvailabilityOfDrug> readAvailabilityOfDrug(String fileName) {
         List<AvailabilityOfDrug> availabilityOfDrugs = new ArrayList<>();
         FileReader fileReader = null;
@@ -88,7 +94,7 @@ public class FileUtils {
 
                 availabilityOfDrugs.add(availabilityOfDrug);
             }
-            System.out.println(availabilityOfDrugs);;
+            System.out.println(availabilityOfDrugs);
             bufferedReader.close();
             fileReader.close();
 
@@ -125,5 +131,99 @@ public class FileUtils {
         }
     }
 
+    public static List<GeneraleRecipeKey> readGeneraleRecipeKey(String fileName) {
+        List<GeneraleRecipeKey> generaleRecipeKeys = new ArrayList<>();
+        FileReader fileReader = null;
+        BufferedReader bufferedReader = null;
+        try {
+            fileReader = new FileReader(fileName);
+            bufferedReader = new BufferedReader(fileReader);
+
+            bufferedReader.readLine();
+
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] partsOfLine = getPartsOfLine(line);
+
+                GeneraleRecipeKey generaleRecipeKey = new GeneraleRecipeKey(partsOfLine[0],
+                        partsOfLine[1], partsOfLine[2], partsOfLine[3], Integer.parseInt(partsOfLine[4]), partsOfLine[5]);
+
+                generaleRecipeKeys.add(generaleRecipeKey);
+            }
+            System.out.println(generaleRecipeKeys);
+            ;
+            bufferedReader.close();
+            fileReader.close();
+
+        } catch (IOException e) {
+            try {
+                bufferedReader.close();
+                fileReader.close();
+            } catch (Exception er) {
+                System.out.println("Произошла ошибка");
+            }
+            throw new RuntimeException("Такой файл не найден");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return generaleRecipeKeys;
+    }
+
+    public static void writeDataToFileGeneraleRecipeKey(List<GeneraleRecipeKey> generaleRecipeKeys, String fileName) {
+        Recipe recipe;
+        FileWriter fileWriter = null;
+        BufferedWriter bufferedWriter = null;
+        try {
+            fileWriter = new FileWriter(fileName);
+            bufferedWriter = new BufferedWriter(fileWriter);
+
+            GeneraleRecipeKey[] generaleRecipeKey = (GeneraleRecipeKey[]) generaleRecipeKeys.toArray();
+
+            for (int i = 0; i < generaleRecipeKey.length; i++) {
+                bufferedWriter.write(generaleRecipeKey[i] + "\n");
+            }
+
+            bufferedWriter.flush();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public static Recipe readRecipe(String fileName) {
+        FileReader fileReader = null;
+        BufferedReader bufferedReader = null;
+        Recipe recipe = new Recipe();
+        try {
+            fileReader = new FileReader(fileName);
+            bufferedReader = new BufferedReader(fileReader);
+
+            bufferedReader.readLine();
+
+            String line;
+
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] partsOfLine = getPartsOfLine(line);
+
+                recipe = new Recipe(partsOfLine[0],
+                        partsOfLine[1], partsOfLine[2], partsOfLine[3], Integer.parseInt(partsOfLine[4]), partsOfLine[5]);
+
+
+            }
+            bufferedReader.close();
+            fileReader.close();
+
+        } catch (IOException e) {
+            try {
+                bufferedReader.close();
+                fileReader.close();
+            } catch (Exception er) {
+                System.out.println("Произошла ошибка");
+            }
+            throw new RuntimeException("Такой файл не найден");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return recipe;
+    }
 }
 
