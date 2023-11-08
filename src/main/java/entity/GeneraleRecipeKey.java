@@ -17,4 +17,6 @@ public class GeneraleRecipeKey {
     public String dateOfAction;
     public int availableCount;
     public String keyWord;
+
+
 }
