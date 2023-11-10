@@ -9,9 +9,7 @@ import entity.User;
 import java.lang.*;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class FileUtils {
     static String[] getPartsOfLine(String line) {
@@ -203,9 +201,11 @@ public class FileUtils {
 
             while ((line = bufferedReader.readLine()) != null) {
                 String[] partsOfLine = getPartsOfLine(line);
+                String[] date = partsOfLine[3].split(":");
+                Calendar calendar = new GregorianCalendar(Integer.parseInt(date[0]), Integer.parseInt(date[1]), Integer.parseInt(date[2]));
 
                 recipe = new Recipe(partsOfLine[0],
-                        partsOfLine[1], partsOfLine[2], partsOfLine[3], Integer.parseInt(partsOfLine[4]), partsOfLine[5]);
+                        partsOfLine[1], partsOfLine[2], calendar, Integer.parseInt(partsOfLine[4]), partsOfLine[5]);
 
 
             }

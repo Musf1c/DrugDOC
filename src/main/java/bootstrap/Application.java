@@ -12,6 +12,7 @@ import service.Menu;
 import java.util.List;
 import java.util.Scanner;
 
+import static entity.GeneraleRecipeKey.getGeneraleRecipeKeyInList;
 import static org.apache.commons.codec.digest.HmacAlgorithms.HMAC_SHA_224;
 
 public class Application {
@@ -63,10 +64,17 @@ public class Application {
                          System.out.println("Рецепт прошел проверку на подлинность");
                          break;
                      }
-                    }
+                 }
                 }
                 if (k.equals("2")) {
-
+                    GeneraleRecipeKey currRecipe = getGeneraleRecipeKeyInList(a.generaleRecipeKeys, a.recipe.uniqueKey);
+                    System.out.println(String.format("Введите отпускаемое количество в пределах доступного %d", currRecipe.availableCount));
+                    int count = keyboard.nextInt();
+                    while (!(count >0 & count<= currRecipe.availableCount)){
+                        System.out.println(String.format("Введите отпускаемое количество в пределах доступного %d", currRecipe.availableCount));
+                        count = keyboard.nextInt();
+                    }
+                    currRecipe.setAvailableCount(currRecipe.availableCount - count);
                 }
             }
 
